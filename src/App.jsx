@@ -3,7 +3,7 @@ import { HeaderApp, ContentCards } from "./style/App"
 import { GlobalStyle } from "./style/GlobalStyle"
 import { ArrowCircleUp, ArrowCircleDown, Money } from "phosphor-react";
 import ButtonModal from "./components/ButtonModal";
-import LogoApp from '../src/assets/logo-2.png';
+import LogoApp from '../src/assets/logo.png';
 import TableProducts from "./components/TableProducts";
 import Container from "@mui/material/Container";
 import { useContext, useEffect, useState } from "react";

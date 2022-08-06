@@ -26,7 +26,7 @@ const theme = createTheme({
     },
 });
 
-export default function ButtonModal({ title_button, datas, color }) {
+export default function ButtonModal({ title_button, datas }) {
     const [open, setOpen] = useState(false);
 
     const [nameTransaction, setNameTransaction] = useState('');
@@ -104,10 +104,15 @@ export default function ButtonModal({ title_button, datas, color }) {
             setNameTransaction('');
             setTypeTransaction('');
             setValueTransaction(0);
-
             setLists(lists.filter((datas_current) => datas_current.IdProduct !== lists.IdProduct))
-
             setOpen(false);
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Transação editada com sucesso!',
+                showConfirmButton: false,
+                timer: 1200
+              })
         }
     }
 
@@ -132,7 +137,7 @@ export default function ButtonModal({ title_button, datas, color }) {
                         </IconButton>
 
                         <Typography sx={{ mb: 2 }} variant='h4' align='center'>
-                            Cadastrar Nova Transação
+                            {datas != undefined ? 'Editar Transação' : 'Cadastrar Nova Transação'}
                         </Typography>
                         <form onSubmit={datas != undefined ? handleEditTransaction : handleSaveTrasanction}>
                             <ThemeProvider theme={theme}>
@@ -171,7 +176,7 @@ export default function ButtonModal({ title_button, datas, color }) {
                                 </FormControl>
 
                                 <ContentBtnsForm>
-                                    <Button sx={{ mt: 4 }} fullWidth variant='contained' color='primary' size='large' type='submit'>Cadastrar</Button>
+                                    <Button sx={{ mt: 4 }} fullWidth variant='contained' color='primary' size='large' type='submit'>{datas != undefined ? 'Editar' : 'Cadastrar' } </Button>
                                 </ContentBtnsForm>
                             </ThemeProvider>
                         </form>
