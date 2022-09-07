@@ -1,7 +1,7 @@
 # App-ReFinance
 App de controle de finanças
 
-<h1>Link do projeto: https://app-re-finance-5u0md1r8d-rennercostaa12.vercel.app/</h1>
+<h1>Link do projeto: https://app-re-finance.vercel.app//</h1>
 
 # Tecnologias
 <ul>
