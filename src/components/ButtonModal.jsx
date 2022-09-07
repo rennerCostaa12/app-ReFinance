@@ -55,7 +55,7 @@ export default function ButtonModal({ title_button, datas }) {
         } else {
 
             const date = new Date();
-            const dateCurrent = `${String(date.getDay()).padStart(2, '0')}/${String(date.getMonth()).padStart(2, '0')}/${date.getFullYear()} `;
+            const dateCurrent = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} `;
 
             const NewItem = {
                 IdProduct: uuid(),
@@ -88,7 +88,7 @@ export default function ButtonModal({ title_button, datas }) {
             Swal.fire('Preencha os campos!');
         } else {
             const date = new Date();
-            const dateCurrent = `${String(date.getDay()).padStart(2, '0')}/${String(date.getMonth()).padStart(2, '0')}/${date.getFullYear()} `;
+            const dateCurrent = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} `;
 
             lists.map(object => {
                 if (object.IdProduct == datas.IdProduct) {
