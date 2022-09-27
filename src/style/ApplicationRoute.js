@@ -5,21 +5,29 @@ export const HeaderApp = styled.header`
     background-color: #228B22;
     height: 200px;
 
-    >div div:first-child{
+    >div:first-of-type{
         display: flex;
+        justify-content: space-between;
         align-items: center;
+        padding: 0 2rem;
+        padding-top: 0.5rem;
     }
 
-    >div{
+    >div:last-of-type{
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0 7rem;
         padding-top: 2.5rem;
-
+        
         img{
             width: 50px;
         }
+    }
+
+    >div div:first-child{
+        display: flex;
+        align-items: center;
     }
 
     >div > div button{
@@ -34,9 +42,9 @@ export const HeaderApp = styled.header`
     }
 
     @media(max-width: 1020px){
-        >div{
+        >div:first-of-type {
             padding: 0 1rem;
-            padding-top: 2.5rem;
+            padding-top: 1rem;
 
             img{
                 width: 40px;
@@ -47,13 +55,40 @@ export const HeaderApp = styled.header`
             }
         }
 
+        >div:last-of-type { 
+            padding: 0 1rem;
+            padding-top: 1.5rem;
+
+            img{
+                width: 30px;
+            }
+
+            h1{
+                font-size: 23px;
+            }
+        }
+
         >div > div button{
             font-size: 15px;
         }
     }
 
     @media(max-width: 425px){
-        >div{
+        >div:first-of-type {
+            padding: 0 0.5rem;
+            padding-top: 1rem;
+
+            h3{
+                font-size: 15px;
+            }
+
+            button{
+                font-size: 12px;
+            }
+
+        }
+
+        >div:last-of-type {
             padding: 0 0.5rem;
             padding-top: 1.5rem;
 
@@ -63,7 +98,7 @@ export const HeaderApp = styled.header`
         }
 
         >div > div button{
-            font-size: 12px;
+            font-size: 10px;
         }
     }
 `

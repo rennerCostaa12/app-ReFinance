@@ -9,7 +9,7 @@ export default function Card({ title_card, value_card, icon_card, bgColor, color
     }
 
     return (
-        <CardStyle style={StylesVariableCard}>
+        <CardStyle data-aos="fade-down" style={StylesVariableCard}>
             <div>
                 <span>
                     <Typography variant='subtitle1'>
