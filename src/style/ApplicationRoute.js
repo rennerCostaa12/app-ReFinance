@@ -5,24 +5,32 @@ export const HeaderApp = styled.header`
     background-color: #228B22;
     height: 200px;
 
-    >div div:first-child{
+    >div:first-of-type{
         display: flex;
+        justify-content: space-between;
         align-items: center;
+        padding: 0 2rem;
+        padding-top: 0.5rem;
     }
 
-    >div{
+    >div:last-of-type{
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0 7rem;
         padding-top: 2.5rem;
-
+        
         img{
             width: 50px;
         }
     }
 
-    >div > div button{
+    >div div:first-child{
+        display: flex;
+        align-items: center;
+    }
+
+    >div > div a{
         padding: 0.6rem 1rem;
         font-size: 18px;
         cursor: pointer;
@@ -31,12 +39,13 @@ export const HeaderApp = styled.header`
         border: none;
         background-color: #1aca1ac4;
         color: #f1f1f1;
+        text-decoration: none;
     }
 
     @media(max-width: 1020px){
-        >div{
+        >div:first-of-type {
             padding: 0 1rem;
-            padding-top: 2.5rem;
+            padding-top: 1rem;
 
             img{
                 width: 40px;
@@ -47,13 +56,40 @@ export const HeaderApp = styled.header`
             }
         }
 
+        >div:last-of-type { 
+            padding: 0 1rem;
+            padding-top: 1.5rem;
+
+            img{
+                width: 30px;
+            }
+
+            h1{
+                font-size: 23px;
+            }
+        }
+
         >div > div button{
             font-size: 15px;
         }
     }
 
     @media(max-width: 425px){
-        >div{
+        >div:first-of-type {
+            padding: 0 0.5rem;
+            padding-top: 1rem;
+
+            h3{
+                font-size: 15px;
+            }
+
+            button{
+                font-size: 12px;
+            }
+
+        }
+
+        >div:last-of-type {
             padding: 0 0.5rem;
             padding-top: 1.5rem;
 
@@ -63,7 +99,7 @@ export const HeaderApp = styled.header`
         }
 
         >div > div button{
-            font-size: 12px;
+            font-size: 10px;
         }
     }
 `
