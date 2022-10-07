@@ -1,8 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 
-import { ContentTable, ContainerTable, ContentLoading } from "../style/TableStyle";
+import { Link } from "react-router-dom";
 
-import ButtonModal from "./ButtonModal";
+import { ContentTable, ContainerTable, ContentLoading } from "../style/TableStyle";
 
 import { UsersContext } from "../contexts/AuthContext";
 import { ItemsContexts } from "../contexts/Items";
@@ -19,15 +19,13 @@ import { deleteItem } from "../config/actionsDatabase/actionDatabase";
 
 export default function TableProducts() {
 
-    const { setLists, updateTable, setUpdateTable } = useContext(ItemsContexts);
+    const { lists, setLists, updateTable, setUpdateTable } = useContext(ItemsContexts);
     const { authUser } = useContext(UsersContext);
 
     const [loading, setLoading] = useState(false);
-    const [items, setItems] = useState([]);
 
-    const handleDeleteProduct = (id, nomeProduto) => {
+    const handleDeleteProduct = (id) => {
         deleteItem(id);
-        setUpdateTable(updateTable.filter(data => data.nome_produto !== nomeProduto));
     }
 
     const collectionRef = collection(DatabaseFirestore, "finanças");
@@ -37,14 +35,13 @@ export default function TableProducts() {
             setLoading(true);
             const data = await getDocs(collectionRef);
             setLists(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-            setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));;
             setLoading(false)
         }
         getUsers();
 
     }, [updateTable])
 
-    const ItemsFiltered = items.filter(data => data.id_user == authUser.uid)
+    const ItemsFiltered = lists.filter(data => data.id_user == authUser.uid)
 
     return (
         <>
@@ -66,16 +63,23 @@ export default function TableProducts() {
                             </thead>
                             <tbody>
                                 {ItemsFiltered && ItemsFiltered.map((value, key) => {
+
+                                    const date = new Date(value.data.seconds * 1000 + value.data.nanoseconds / 1000000);
+                                    const dateCurrent = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} `;
+
                                     return (
                                         <tr style={{
                                             backgroundColor: key % 2 ? "#D3D3D3" : '#FFF'
                                         }} key={key}>
                                             <td>{value.nome}</td>
                                             <td style={{ color: value.tipo == 'entrada' ? 'green' : 'red' }} >{value.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
-                                            <td>{value.data}</td>
+                                            <td>{dateCurrent}</td>
                                             <td>
-                                                <ButtonModal title_button={<Edit />} datas={value} />
-                                                <Button color='error' onClick={() => handleDeleteProduct(value.id, value.nome)}>
+                                                <Link to={`editar/${value.id}`}>
+                                                    <Edit />
+                                                </Link>
+
+                                                <Button color='error' onClick={() => handleDeleteProduct(value.id)}>
                                                     <DeleteIcon />
                                                 </Button>
                                             </td>

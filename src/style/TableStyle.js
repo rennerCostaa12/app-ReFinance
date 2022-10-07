@@ -38,8 +38,14 @@ export const ContentTable = styled.table`
             justify-content: center;
         }
 
-        tr td button:first-child{
+        tr td a:first-child{
+            display: flex;
+            align-items: center;
             color: #7b1fa2;
+            
+            :active{
+                color: #7b1fa2;
+            }
         }
     }
 `

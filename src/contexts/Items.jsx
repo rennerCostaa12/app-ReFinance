@@ -5,10 +5,9 @@ export const ItemsContexts = createContext();
 
 export default function ItemsContextProviders({ children }) {
     const [lists, setLists] = useState([]);
-    const [updateTable, setUpdateTable] = useState([]);
 
     return (
-        <ItemsContexts.Provider value={{ lists, setLists, updateTable, setUpdateTable }}>
+        <ItemsContexts.Provider value={{ lists, setLists }}>
             {children}
         </ItemsContexts.Provider>
     )

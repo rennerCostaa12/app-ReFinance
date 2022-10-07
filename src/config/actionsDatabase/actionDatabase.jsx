@@ -1,12 +1,12 @@
-import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, deleteDoc, doc, Timestamp } from "firebase/firestore";
 import { DatabaseFirestore } from "../firebase/config";
 import Swal from "sweetalert2";
 
 
-export async function AddItem(name, type, idUser, value, date) {
+export async function AddItem(name, type, idUser, value) {
     try {
         await addDoc(collection(DatabaseFirestore, "finanças"), {
-            data: date,
+            data: Timestamp.fromDate(new Date()),
             id_user: idUser,
             nome: name,
             tipo: type,
@@ -18,11 +18,11 @@ export async function AddItem(name, type, idUser, value, date) {
     }
 }
 
-export async function updateItem(idItem, name, type, idUser, value, date) {
+export async function updateItem(idItem, name, type, idUser, value) {
     const docRef = doc(DatabaseFirestore, "finanças", idItem);
 
     await updateDoc(docRef, {
-        data: date,
+        data: Timestamp.fromDate(new Date()),
         id_user: idUser,
         nome: name,
         tipo: type,
@@ -32,6 +32,8 @@ export async function updateItem(idItem, name, type, idUser, value, date) {
 
 export async function deleteItem(idItem) {
     await deleteDoc(doc(DatabaseFirestore, "finanças", idItem));
+
+    window.location.reload();
 
     Swal.fire({
         position: 'top-end',

@@ -30,7 +30,7 @@ export const HeaderApp = styled.header`
         align-items: center;
     }
 
-    >div > div button{
+    >div > div a{
         padding: 0.6rem 1rem;
         font-size: 18px;
         cursor: pointer;
@@ -39,6 +39,7 @@ export const HeaderApp = styled.header`
         border: none;
         background-color: #1aca1ac4;
         color: #f1f1f1;
+        text-decoration: none;
     }
 
     @media(max-width: 1020px){

@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import { HeaderApp, ContentCards } from "../style/ApplicationRoute"
 
 import { ArrowCircleUp, ArrowCircleDown, Money } from "phosphor-react";
 
 import Card from "../components/Card";
-import ButtonModal from "../components/ButtonModal";
 import TableProducts from "../components/TableProducts";
 
 import LogoApp from '../assets/logo.png';
@@ -92,7 +93,7 @@ export default function ApplicationRoute() {
             <h1>ReFinance</h1>
           </div>
           <div>
-            <ButtonModal title_button="Nova Transação" />
+            <Link to="/financas/add">Nova Transação</Link>
           </div>
         </Container>
       </HeaderApp>
