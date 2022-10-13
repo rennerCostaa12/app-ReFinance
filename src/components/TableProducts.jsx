@@ -26,16 +26,16 @@ export default function TableProducts() {
     const { lists, setLists } = useContext(ItemsContexts);
 
     const [loading, setLoading] = useState(false);
-    const [nameSearch, setNameSearch] = useState('');
+    const [search, setSearch] = useState('');
     const [typesItems, setTypesItems] = useState('');
 
     const handleDeleteProduct = useCallback((id) => {
         deleteItem(id);
         setTypesItems('');
-        setNameSearch('');
+        setSearch('');
     }, []);
 
-    const tokenAccess = localStorage.getItem('tokenAccess')
+    const tokenAccess = localStorage.getItem('tokenAccess');
 
     useEffect(() => {
         const getUsers = async () => {
@@ -56,8 +56,8 @@ export default function TableProducts() {
 
     }, [typesItems])
 
-    const searchFilter = nameSearch.toLowerCase();
-    const filteredItems = nameSearch.length > 0 ? lists.filter(data => data.nome.toLowerCase().includes(searchFilter)) : [];
+    const searchFilter = search.toLowerCase();
+    const filteredItems = search.length > 0 ? lists.filter(data => data.nome.toLowerCase().includes(searchFilter)) : [];
 
     return (
         <>
@@ -67,8 +67,8 @@ export default function TableProducts() {
                 <Box sx={{ minWidth: 300 }}>
                     <InputTextField
                         labelInput="Pesquisa"
-                        valueInput={nameSearch}
-                        onChangeValue={(e) => setNameSearch(e.target.value)}
+                        valueInput={search}
+                        onChangeValue={(e) => setSearch(e.target.value)}
                     />
                     <FormControl sx={{ width: 150 }}>
                         <InputLabel id="typesItemsLabel">Tipos</InputLabel>
