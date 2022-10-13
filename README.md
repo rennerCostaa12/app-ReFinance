@@ -1,7 +1,7 @@
 # App-ReFinance
 App de controle de finanças
 
-<h1>Link do projeto: https://app-refinance.netlify.app</h1>
+<h1>Link do projeto: https://app-re-finance.vercel.app/</h1>
 
 # Tecnologias
 <ul>
