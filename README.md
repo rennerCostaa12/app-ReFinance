@@ -23,6 +23,9 @@ App de controle de finanças
 <li>
 <a href="https://styled-components.com/docs"/>Styled-Component</a>
 </li>
+<li>
+<a href="https://firebase.google.com/docs?hl=pt"/>Firebase</a>
+</li>
 </ul>
 
 # Imagens do Projeto 
