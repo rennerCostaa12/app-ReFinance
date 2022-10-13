@@ -12,27 +12,22 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
 import Button from '@mui/material/Button';
+import Typography from "@mui/material/Typography";
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { Content, Container } from "../style/AddAndEditRoute";
+import { Content, Container, ContentModal } from "../style/AddAndEditRoute";
 
 import { useContext } from "react";
 import { UsersContext } from "../contexts/AuthContext";
 
 import Swal from "sweetalert2";
 
-const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#7b1fa2',
-            contrastText: '#fff',
-        }
-    },
-});
+import { ArrowFatLeft } from "phosphor-react";
 
+import ParticlesBackground from "../components/ParticlesBackground";
+
+import AOS from "aos";
+import 'aos/dist/aos.css';
 
 export default function EditRoute() {
 
@@ -95,12 +90,26 @@ export default function EditRoute() {
         })
     }
 
+    const handleRedirectPage = () => {
+        navigate('/financas');
+    }
+
+    useEffect(() => {
+        AOS.init({ duration: 1000 })
+    }, [])
+
     return (
         <Container>
-            <Content>
-                <h1>Editar Transação</h1>
-                <form onSubmit={handleEditItem}>
-                    <ThemeProvider theme={theme}>
+            <ParticlesBackground />
+            <Content data-aos="fade-down">
+                <Button color="secondary" title="Voltar" onClick={handleRedirectPage} size="small" variant="contained">
+                    <ArrowFatLeft size={25} weight="bold" />
+                </Button>
+                <ContentModal>
+                    <Typography align="center" variant="h4" gutterBottom>
+                        Editar Transação
+                    </Typography>
+                    <form onSubmit={handleEditItem}>
                         <InputTextField
                             nameInput="nome_produto"
                             idInput="input-text-item"
@@ -108,6 +117,7 @@ export default function EditRoute() {
                             typeInput="text"
                             valueInput={nameItem}
                             helperTextInput={errorName}
+                            autoComplete="off"
                             onChangeValue={(e) => setNameItem(e.target.value)}
                         />
 
@@ -118,10 +128,11 @@ export default function EditRoute() {
                             typeInput="number"
                             valueInput={valueItem}
                             helperTextInput={errorValue}
+                            autoComplete="off"
                             onChangeValue={(e) => setValueItem(e.target.value)}
                         />
 
-                        <FormControl fullWidth >
+                        <FormControl color="primary" fullWidth >
                             <InputLabel id='select-type-input'>Tipo</InputLabel>
                             <Select
                                 name='tipo_produto'
@@ -143,9 +154,17 @@ export default function EditRoute() {
                                 ''
                             }
                         </FormControl>
-                        <Button sx={{ mt: 4 }} fullWidth variant='contained' color='primary' size='large' type='submit'>Editar</Button>
-                    </ThemeProvider>
-                </form>
+                        <Button
+                            sx={{ mt: 4, fontWeight: 'bold' }}
+                            fullWidth variant='contained'
+                            color='secondary'
+                            size='large'
+                            type='submit'
+                        >
+                            Editar
+                        </Button>
+                    </form>
+                </ContentModal>
             </Content>
         </Container>
     )

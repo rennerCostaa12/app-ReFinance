@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderApp = styled.header`
     color: #f1f1f1;
-    background-color: #228B22;
+    background-color: #4932D6;
     height: 200px;
 
     >div:first-of-type{
@@ -11,6 +11,12 @@ export const HeaderApp = styled.header`
         align-items: center;
         padding: 0 2rem;
         padding-top: 0.5rem;
+        
+        img{
+            width: 40px;
+            margin-right: 0.5rem;
+            border-radius: 20px;
+        }
     }
 
     >div:last-of-type{
@@ -37,8 +43,8 @@ export const HeaderApp = styled.header`
         font-weight: bold;
         border-radius: 4px;
         border: none;
-        background-color: #1aca1ac4;
-        color: #f1f1f1;
+        background-color: #CCF282;
+        color: #000;
         text-decoration: none;
     }
 

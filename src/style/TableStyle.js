@@ -1,12 +1,23 @@
 import styled from "styled-components";
 
-export const ContentLoading = styled.div`
-    display: flex;
-    justify-content: center;
-`
-
 export const ContainerTable = styled.div`
+    width: 100%;
     overflow-x: scroll;
+    padding: 1rem 0;
+
+    >div:first-child{
+        display: flex;
+        div:first-child{
+            margin-right: 1rem;
+            width: 300px;
+        }
+    }
+
+    @media (max-width: 540px){
+        >div{
+            justify-content: center;
+        }
+    }
 `
 
 export const ContentTable = styled.table`
@@ -41,10 +52,10 @@ export const ContentTable = styled.table`
         tr td a:first-child{
             display: flex;
             align-items: center;
-            color: #7b1fa2;
+            color: #83a73d;
             
             :active{
-                color: #7b1fa2;
+                color: #83a73d;
             }
         }
     }

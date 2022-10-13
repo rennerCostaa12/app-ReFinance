@@ -7,34 +7,40 @@ export default function InputTextField({
     labelInput,
     onChangeValue,
     valueInput,
-    nameInput
+    nameInput,
+    autoComplete,
+    fullWidth,
+    width
 }) {
     return (
         <>
             {helperTextInput && helperTextInput.length > 0 ?
                 <TextField
-                    error
                     fullWidth
+                    color='secondary'
+                    error
                     name={nameInput}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 2, width: width }}
                     label={labelInput}
                     type={typeInput}
                     id={idInput}
                     helperText={helperTextInput}
                     value={valueInput}
                     onChange={onChangeValue}
+                    autoComplete={autoComplete}
                     required
                 />
                 :
                 <TextField
-                    fullWidth
+                fullWidth
                     name={nameInput}
-                    sx={{ mb: 2 }}
+                    sx={{ mb: 2, width: width}}
                     label={labelInput}
                     type={typeInput}
                     id={idInput}
                     value={valueInput}
                     onChange={onChangeValue}
+                    autoComplete={autoComplete}
                     required
                 />
             }

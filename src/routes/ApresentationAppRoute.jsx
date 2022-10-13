@@ -16,7 +16,7 @@ import 'aos/dist/aos.css';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#228B22',
+            main: '#4932D6',
             contrastText: '#fff',
         }
     },

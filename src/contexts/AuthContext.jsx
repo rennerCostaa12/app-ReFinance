@@ -7,6 +7,7 @@ export const UsersContext = createContext();
 
 export default function UserContextProviders({ children }) {
     const [authUser, setAuthUSer] = useState({});
+    const [uidAuth, setUidAuth] = useState('');
 
     const signInGoogle = () => {
         const providerGoogle = new GoogleAuthProvider();
@@ -15,6 +16,7 @@ export default function UserContextProviders({ children }) {
                 const credential = GoogleAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
                 const user = result.user;
+                localStorage.setItem('tokenAccess', user.uid);
             }).catch((error) => {
                 console.log(error);
             })
@@ -22,6 +24,7 @@ export default function UserContextProviders({ children }) {
 
     const logoutUser = () => {
         signOut(Auth);
+        localStorage.setItem('tokenAccess', null);
     }
 
     useEffect(() => {
@@ -35,7 +38,7 @@ export default function UserContextProviders({ children }) {
     }, [])
 
     return (
-        <UsersContext.Provider value={{ authUser, signInGoogle, logoutUser }}>
+        <UsersContext.Provider value={{ authUser, signInGoogle, logoutUser, uidAuth }}>
             {children}
         </UsersContext.Provider>
     )

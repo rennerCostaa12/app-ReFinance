@@ -31,11 +31,9 @@ export default function ApplicationRoute() {
   const [valueTotalInput, setValueTotalInput] = useState(0);
   const [valueTotalOutput, setValueTotalOutput] = useState(0);
 
-  const listFiltered = lists.filter(data => data.id_user == authUser.uid);
-
   useEffect(() => {
     const separateTypesValues = () => {
-      listFiltered.map((value) => {
+      lists.map((value) => {
         if (value.tipo === 'entrada') {
           ListProductsInputs.push(value.valor)
         } else {
@@ -76,16 +74,26 @@ export default function ApplicationRoute() {
 
   useEffect(() => {
     AOS.init({ duration: 1000 })
-  }, [])
+  }, []);
 
   return (
-    <div className="App">
+    <div>
       <HeaderApp>
         <Container>
-          <h3>
-            {authUser.displayName ? authUser.displayName : 'Carregando'}
-          </h3>
-          <Button onClick={LogoutUser} variant="contained" color="secondary">Logout</Button>
+          <div>
+            <img src={authUser.photoURL} alt={authUser.displayName} />
+            <h3>
+              {authUser.displayName ? authUser.displayName : 'Carregando'}
+            </h3>
+          </div>
+          <Button
+            onClick={LogoutUser}
+            sx={{ fontWeight: 'bold' }}
+            variant="contained"
+            color="secondary"
+          >
+            Logout
+          </Button>
         </Container>
         <Container maxWidth='xl'>
           <div>
@@ -115,8 +123,8 @@ export default function ApplicationRoute() {
             title_card="Total"
             icon_card={<Money size={32} />}
             value_card={(valueTotalInput - valueTotalOutput).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-            bgColor="#7b1fa2"
-            colorCard="#f1f1f1"
+            bgColor="#CCF282"
+            colorCard="#000"
           />
         </ContentCards>
 

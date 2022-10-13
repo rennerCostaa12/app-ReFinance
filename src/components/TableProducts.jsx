@@ -1,57 +1,92 @@
 import { useContext, useState, useEffect } from "react";
 
-import { Link } from "react-router-dom";
+import { ContentTable, ContainerTable } from "../style/TableStyle";
 
-import { ContentTable, ContainerTable, ContentLoading } from "../style/TableStyle";
-
-import { UsersContext } from "../contexts/AuthContext";
 import { ItemsContexts } from "../contexts/Items";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import Edit from "@mui/icons-material/Edit";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
-
-import { collection, getDocs } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { DatabaseFirestore } from "../config/firebase/config";
 import { deleteItem } from "../config/actionsDatabase/actionDatabase";
 
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+import Loader from './Loader';
+import AlertMessages from "./AlertMessages";
+import InputTextField from "./InputTextField";
+import TableRow from "./TableRow";
+
+import { useCallback } from "react";
 
 export default function TableProducts() {
 
-    const { lists, setLists, updateTable, setUpdateTable } = useContext(ItemsContexts);
-    const { authUser } = useContext(UsersContext);
+    const { lists, setLists } = useContext(ItemsContexts);
 
     const [loading, setLoading] = useState(false);
+    const [nameSearch, setNameSearch] = useState('');
+    const [typesItems, setTypesItems] = useState('');
 
-    const handleDeleteProduct = (id) => {
+    const handleDeleteProduct = useCallback((id) => {
         deleteItem(id);
-    }
+        setTypesItems('');
+        setNameSearch('');
+    }, []);
 
-    const collectionRef = collection(DatabaseFirestore, "finanças");
+    const tokenAccess = localStorage.getItem('tokenAccess')
 
     useEffect(() => {
         const getUsers = async () => {
             setLoading(true);
-            const data = await getDocs(collectionRef);
-            setLists(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+            const queryRef = query(collection(DatabaseFirestore, "finanças"), where('id_user', '==', tokenAccess));
+            const queryRefStatus = query(collection(DatabaseFirestore, "finanças"), where('id_user', '==', tokenAccess), where('tipo', '==', typesItems));
+
+            const decisionQuery = typesItems.length > 0 ? queryRefStatus : queryRef;
+
+            onSnapshot(decisionQuery, (querySnapshot) => {
+                const datas = [];
+                querySnapshot.forEach((doc) => ( datas.push(({...doc.data(), id: doc.id}))))
+                setLists(datas);
+            });
             setLoading(false)
         }
         getUsers();
 
-    }, [updateTable])
+    }, [typesItems])
 
-    const ItemsFiltered = lists.filter(data => data.id_user == authUser.uid)
+    const searchFilter = nameSearch.toLowerCase();
+    const filteredItems = nameSearch.length > 0 ? lists.filter(data => data.nome.toLowerCase().includes(searchFilter)) : [];
 
     return (
         <>
-            {loading ?
-                <ContentLoading>
-                    <CircularProgress color="success" />
-                </ContentLoading>
-                :
-                ItemsFiltered.length > 0 ?
-                    <ContainerTable>
+            {loading && <Loader />}
+
+            <ContainerTable>
+                <Box sx={{ minWidth: 300 }}>
+                    <InputTextField
+                        labelInput="Pesquisa"
+                        valueInput={nameSearch}
+                        onChangeValue={(e) => setNameSearch(e.target.value)}
+                    />
+                    <FormControl sx={{ width: 150 }}>
+                        <InputLabel id="typesItemsLabel">Tipos</InputLabel>
+                        <Select
+                            labelId="typesItemsLabel"
+                            id="typesItems"
+                            label="Tipos"
+                            value={typesItems}
+                            onChange={(e) => setTypesItems(e.target.value)}
+                        >
+                            <MenuItem value="">Todos</MenuItem>
+                            <MenuItem value="entrada">Entrada</MenuItem>
+                            <MenuItem value="saida">Saída</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Box>
+                {
+                    lists.length > 0 ?
                         <ContentTable>
                             <thead>
                                 <tr>
@@ -62,43 +97,39 @@ export default function TableProducts() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {ItemsFiltered && ItemsFiltered.map((value, key) => {
-
-                                    const date = new Date(value.data.seconds * 1000 + value.data.nanoseconds / 1000000);
-                                    const dateCurrent = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()} `;
-
-                                    return (
-                                        <tr style={{
-                                            backgroundColor: key % 2 ? "#D3D3D3" : '#FFF'
-                                        }} key={key}>
-                                            <td>{value.nome}</td>
-                                            <td style={{ color: value.tipo == 'entrada' ? 'green' : 'red' }} >{value.valor.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</td>
-                                            <td>{dateCurrent}</td>
-                                            <td>
-                                                <Link to={`editar/${value.id}`}>
-                                                    <Edit />
-                                                </Link>
-
-                                                <Button color='error' onClick={() => handleDeleteProduct(value.id)}>
-                                                    <DeleteIcon />
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
+                                {filteredItems.length > 0 ?
+                                    filteredItems.map((value, key) => {
+                                        return (
+                                            <TableRow
+                                                data={value}
+                                                key={value.id}
+                                                funcDeleteItem={handleDeleteProduct}
+                                                numberElement={key}
+                                            />
+                                        )
+                                    })
+                                    :
+                                    lists.map((value, key) => {
+                                        return (
+                                            <TableRow
+                                                data={value}
+                                                key={value.id}
+                                                funcDeleteItem={handleDeleteProduct}
+                                                numberElement={key}
+                                            />
+                                        )
+                                    })
+                                }
                             </tbody>
                         </ContentTable>
-                    </ContainerTable>
-                    :
-                    <h3 style={{
-                        textAlign: "center",
-                        marginBottom: '2rem'
-                    }}
-                    >
-                        Nenhum Registro Cadastrado
-                    </h3>
-
-            }
+                        :
+                        <AlertMessages
+                            messageText="Nada encontrado"
+                            size="20px"
+                            weight={true}
+                        />
+                }
+            </ContainerTable>
         </>
 
     )

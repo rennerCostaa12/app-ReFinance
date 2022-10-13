@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"
 
-import { Content, Container } from "../style/AddAndEditRoute";
+import { Content, Container, ContentModal } from "../style/AddAndEditRoute";
 
 import { AddItem } from "../config/actionsDatabase/actionDatabase";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import InputTextField from "../components/InputTextField";
 
@@ -13,13 +13,19 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
-
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Typography from "@mui/material/Typography";
 
 import { useContext } from "react";
 import { UsersContext } from "../contexts/AuthContext";
 
 import Swal from "sweetalert2";
+
+import { ArrowFatLeft } from "phosphor-react";
+
+import ParticlesBackground from '../components/ParticlesBackground';
+
+import AOS from "aos";
+import 'aos/dist/aos.css';
 
 export default function AddRoute() {
     const [nameItem, setNameItem] = useState('');
@@ -34,15 +40,6 @@ export default function AddRoute() {
     const { authUser } = useContext(UsersContext);
 
     const navigate = useNavigate();
-
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: '#7b1fa2',
-                contrastText: '#fff',
-            }
-        },
-    });
 
     const handleAddItem = (e) => {
         e.preventDefault();
@@ -70,12 +67,32 @@ export default function AddRoute() {
         })
     }
 
+    const handleRedirectPage = () => {
+        navigate('/financas');
+    }
+
+    useEffect(() => {
+        AOS.init({ duration: 1000 })
+    }, [])
+
     return (
         <Container>
-            <Content>
-                <h1>Adicionar Transação</h1>
-                <form onSubmit={handleAddItem}>
-                    <ThemeProvider theme={theme}>
+            <ParticlesBackground />
+            <Content data-aos="fade-down">
+                <Button
+                    color="secondary"
+                    title="Voltar"
+                    onClick={handleRedirectPage}
+                    size="small"
+                    variant="contained"
+                >
+                    <ArrowFatLeft size={25} weight="bold" />
+                </Button>
+                <ContentModal>
+                    <Typography align="center" variant="h4" gutterBottom>
+                        Adicionar Transação
+                    </Typography>
+                    <form onSubmit={handleAddItem}>
                         <InputTextField
                             nameInput="nome_produto"
                             idInput="input-text-item"
@@ -83,6 +100,7 @@ export default function AddRoute() {
                             typeInput="text"
                             valueInput={nameItem}
                             helperTextInput={errorName}
+                            autoComplete="off"
                             onChangeValue={(e) => setNameItem(e.target.value)}
                         />
 
@@ -93,10 +111,11 @@ export default function AddRoute() {
                             typeInput="number"
                             valueInput={valueItem}
                             helperTextInput={errorValue}
+                            autoComplete="off"
                             onChangeValue={(e) => setValueItem(e.target.value)}
                         />
 
-                        <FormControl fullWidth >
+                        <FormControl color="primary" fullWidth>
                             <InputLabel id='select-type-input'>Tipo</InputLabel>
                             <Select
                                 name='tipo_produto'
@@ -118,9 +137,18 @@ export default function AddRoute() {
                                 ''
                             }
                         </FormControl>
-                        <Button sx={{ mt: 4 }} fullWidth variant='contained' color='primary' size='large' type='submit'>Adicionar</Button>
-                    </ThemeProvider>
-                </form>
+                        <Button
+                            sx={{ mt: 4, fontWeight: 'bold' }}
+                            fullWidth
+                            variant='contained'
+                            color='secondary'
+                            size='large'
+                            type='submit'
+                        >
+                            Adicionar
+                        </Button>
+                    </form>
+                </ContentModal>
             </Content>
         </Container>
     )

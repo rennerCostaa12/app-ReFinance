@@ -33,8 +33,6 @@ export async function updateItem(idItem, name, type, idUser, value) {
 export async function deleteItem(idItem) {
     await deleteDoc(doc(DatabaseFirestore, "finanças", idItem));
 
-    window.location.reload();
-
     Swal.fire({
         position: 'top-end',
         icon: 'success',
